@@ -12,7 +12,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: '好用的笔记本',
+      default: 'QM系统',
       required: false
     }
   }

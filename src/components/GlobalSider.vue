@@ -3,23 +3,29 @@
     <a-layout-sider :trigger="null" theme="light" :style="{ height: '100%' }">
       <!-- Logo -->
       <div id="logo">
-        <Logo title="好用的笔记本"/>
+        <Logo title="QM系统测试版"/>
       </div>
 
       <!-- 菜单栏 :style="{ background: '#00'} -->
       <div id="menu">
           <a-menu theme="light" mode="inline" :selectedKeys="[selectedKey]" @click="clickMenu">
-            <a-menu-item key="1">
+            <a-sub-menu key="0">
+              <span slot="title"><a-icon type="user" />质量信息</span>
+              <a-menu-item key="online_data">实时质量监控</a-menu-item>
+              <a-menu-item key="history_data">历史质量回顾</a-menu-item>
+            </a-sub-menu>
+
+            <a-menu-item key="member">
               <a-icon type="book" />
-              <span>一个新的笔记</span>
+              <span>员工信息</span>
             </a-menu-item>
 
-            <a-menu-item key="2">
+            <a-menu-item key="authorize">
               <a-icon type="read" />
-              <span>查看所有的笔记</span>
+              <span>权限管理</span>
             </a-menu-item>
 
-            <a-menu-item key="3">
+            <a-menu-item key="profile">
               <a-icon type="user" />
               <span>个人中心</span>
             </a-menu-item>
@@ -39,33 +45,29 @@ export default {
   },
   data() {
     return {
-      selectedKey: "2"
+      selectedKey: "profile"
     };
   },
   methods: {
     clickMenu({key}) {
       let path = "";
       this.selectedKey = key;
-      if (key === "1") {
-        path = "newFile"
-      } else if (key === "2") {
-        path = "allFile"
-      } else if (key === "3") {
+      if (key === "online_data") {
+        path = "online_data"
+      } else if (key === "history_data") {
+        path = "history_data"
+      } else if (key === "member") {
+        path = "member"
+      } else if (key === "authorize") {
+        path = "authorize"
+      } else if (key === "profile") {
         path = "profile"
       }
       this.$emit("clickItem", path)
       }
   },
   mounted() {
-    console.log(this.$route.name);
-    if (this.$route.name === "NewFile") {
-      this.selectedKey = "1";
-      console.log(this.selectedKey);
-    } else if (this.$route.name === "AllFile") {
-      this.selectedKey = "2";
-    } else {
-      this.selectedKey = "3";
-    }
+    this.selectedKey = this.$route.name
   }
 }
 </script>

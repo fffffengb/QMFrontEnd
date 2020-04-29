@@ -1,6 +1,15 @@
 import { request } from './request'
 import store from "@/store";
 
+export function getOnlineData(type, structure, statId, startTime, endTime, page, size) {
+  const parms = [type, structure, statId, startTime, endTime, page, size]
+  const path = getPath(parms)
+  console.log("http://localhost:9001" + path);
+  return request({
+    url: "http://localhost:9001" + path,
+    method: "GET"
+  })
+}
 
 export function changeNickname(newNickname) {
   return request({
@@ -12,87 +21,9 @@ export function changeNickname(newNickname) {
   })
 }
 
-export function postLabel(labelName, color) {
-  return request({
-    url: "/data/label",
-    method: "POST",
-    data: {
-      "labelName": labelName,
-      "color": color
-    }
-  })
-}
-export function deleteLabelById(labelId) {
-  let finalPath = "/data/label" + getPath([labelId]);
-  return request({
-    url: finalPath,
-    method: "DELETE"
-  })
-}
-
-export function deleteCardById(cardId) {
-  let finalPath = "/data/card" + getPath([cardId]);
-  return request({
-    url: finalPath,
-    method: "DELETE"
-  })
-}
-
-export function requestCardForReview() {
-  return request({
-    url: "data/card/review",
-    method: "GET"
-  })
-}
-
-export function requestAllCard(label, startTime, endTime) {
-  let path = "/data/card";
-  let params = [];
-  params.push(label);
-  if (startTime !== undefined && endTime !==undefined)
-    params.push(startTime.format("YYYY-MM-DD"), endTime.format("YYYY-MM-DD"))
-  let finalUrl = path + getPath(params);
-  console.log(finalUrl);
-  return request( {
-    url: finalUrl,
-    method: "GET"
-  })
-}
-
-export function requestAllLabel() {
-  return request({
-    url: "/data/label",
-    method: "GET"
-  })
-}
-
-export function postNewCard(question, answer, labels) {
-  return request({
-    url: "/data/card",
-    method: "POST",
-    data: {
-      "question": question,
-      "answer": answer,
-      "labels": labels
-    }
-  })
-}
-
-export function updateCard(id, newQuestion, newAnswer) {
-  return request({
-    url: "/data/card",
-    method: "PATCH",
-    data: {
-      "id": id,
-      "newQuestion": newQuestion,
-      "newAnswer": newAnswer
-    }
-  })
-}
-
 export function postLogin(username, password) {
   return request({
-    url: "/sys/login",
+    url: "http://localhost:9000/sys/login",
     method: "POST",
     requireLogin: false,
     data: {
@@ -108,7 +39,7 @@ export function cacheLoginStatus(userData) {
   //存储认证token和认证时间
   window.localStorage.setItem("token", userData.token);
   window.localStorage.setItem("tokenCreateTime", new Date() + "");
-  window.localStorage.setItem("nickname", userData.nickname);
+  window.localStorage.setItem("nickname", userData.username);
 }
 
 function getPath(params) {

@@ -32,38 +32,6 @@
             </a-tag>
           </span>
           </div>
-          <div class="tagEditor">
-            <div class="colorCheckbox">
-              <a-radio-group style="width: 100%" @change="onChange" defaultValue="#FFFFFF">
-                <a-row :gutter="8">
-                  <a-col :span="7" v-for=" (color, key) in colors " v-bind:key="key">
-                    <span style="{margin: 16px}">
-                      <a-radio :value="key" class="radio">
-                        <a-tag :color="key">{{color}}</a-tag>
-                      </a-radio>
-                    </span>
-                  </a-col>
-                  <a-col :span="8">
-                    <span style="{margin: 16px}">
-                      <a-radio value="#FFFFFF" class="radio">
-                        <a-tag>纯白</a-tag>
-                      </a-radio>
-                    </span>
-                  </a-col>
-                </a-row>
-              </a-radio-group>
-            </div>
-            <div class="tagInput">
-              <a-row :gutter="12">
-                <a-col :span="18">
-                  <a-input v-model="labelName"/>
-                </a-col>
-                <a-col :span="4">
-                  <a-button  type="primary" :loading="addButtonLoading" ghost icon="plus" @click="addLabel">添加</a-button>
-                </a-col>
-              </a-row>
-            </div>
-          </div>
         </a-col>
       </a-row>
     <a-modal title="此处可以修改昵称" v-model="showChangeNickname" @ok="changeNickname">
@@ -75,12 +43,11 @@
         </a-form-item>
       </a-form>
     </a-modal>
-<!--    <a-modal title="Basic Modal" v-model="showChangePwd" @ok="changePwd"/>-->
   </div>
 </template>
 
 <script>
-  import {changeNickname, deleteLabelById, postLabel, requestAllLabel} from "@/network/api";
+  import {changeNickname} from "@/network/api";
   import { colors } from "@/config/common.config";
 
   export default {
@@ -125,37 +92,9 @@
             this.$message.error("修改失败T_T")
           }
         });
-      },
-      addLabel(){
-        this.addButtonLoading = true
-        postLabel(this.labelName, this.curColor).then(res => {
-          this.tags.push(res.data)
-          this.$message.success("添加成功")
-        }).catch(err => {
-          console.log(err)
-          this.$message.error("网络异常")
-        })
-      },
-      onChange(e) {
-        this.curColor = e.target.value
-      },
-      deleteLabel(id) {
-        deleteLabelById(id).then(res => {
-          console.log(res)
-          this.$message.success("删除成功~")
-        }).catch((err) => {
-          console.log(err);
-          this.$message.error("网络出现问题")
-        })
-      },
+      }
     },
     mounted() {
-      this.listData[3].value = "2333"
-      requestAllLabel().then(res => {
-        this.tags = res.data
-      }).catch(err =>{
-        console.log("请求所有标签时出现了错误: ", err)
-      })
     }
   }
 </script>

@@ -51,8 +51,8 @@ import { GlobalHeader, GlobalSider } from '@/components'
   }
 
   #base-layout #sider #logo {
-    padding: 1px;
-    border-bottom:1px solid #188fff96;
+    /*padding: 1px;*/
+    /*border-bottom:1px solid #188fff96;*/
   }
 
   #base-layout {

@@ -7,8 +7,6 @@ let isRefreshing = false;
 
 export function request(config) {
   const instance = axios.create({
-    // baseURL:"http://182.92.243.125",
-    baseURL:"http://127.0.0.1:9000",
     timeout: 6000
   });
 
@@ -34,24 +32,6 @@ export function request(config) {
       } else {  // 如果token过期了
         console.log("token过期了");
         window.location.href = "/login";
-        // // 加同步锁
-        // isRefreshing = true;
-        // // 重新获取token
-        // /*在这里必须return, 才能保证刷新token之后才执行当前这个因为token过期而可能失败的请求 */
-        // return loginFromCookie().then(res => {  // 从cookie中拿到用户名和密码并登陆成功
-        //   // 缓存登陆状态
-        //   cacheLoginStatus(res.data);
-        //   // 开锁
-        //   isRefreshing = false;
-        //   console.log("刷新了token");
-        //   config.headers["Authorization"] = res.data.token;
-        //   return config;
-        // }).catch(() => {  // cookie中的账号密码过期或损坏
-        //   //清空同步锁和缓存的请求
-        //   isRefreshing = false;
-        //   //强制返回登录界面
-        //   window.location.href = "/login";
-        // })
       }
     }
   }, err => {

@@ -1,9 +1,13 @@
-import AllFile from '@/views/allFile/AllFile.vue'
-import NewFile from '@/views/newFile/NewFile.vue'
+import Authority from '@/views/authority/Authority.vue'
 import Profile from '@/views/profile/Profile.vue'
+import HistoryData from "./data/HistoryData";
+import OnlineData from "./data/OnlineData";
+import Member from "./member/Member";
 
 export {
-  AllFile,
-  NewFile,
-  Profile
+  HistoryData,
+  Authority,
+  Profile,
+  OnlineData,
+  Member
 }
