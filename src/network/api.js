@@ -1,6 +1,37 @@
 import { request } from './request'
 import store from "@/store";
 
+export function deleteByUsername(username) {
+  const parms = [username]
+  const path = getPath(parms)
+  console.log("http://localhost:9000/sys/user" + path);
+  return request({
+    url: "http://localhost:9000/sys/user" + path,
+    method: "DELETE"
+  })
+}
+
+
+export function getUserData(username, page, size) {
+  const parms = [username, page, size]
+  const path = getPath(parms)
+  console.log("http://localhost:9000/sys/user" + path);
+  return request({
+    url: "http://localhost:9000/sys/user" + path,
+    method: "GET"
+  })
+}
+
+export function getDailyData(type, structure, statId, startTime, endTime, page, size) {
+  const parms = [type, structure, statId, startTime, endTime, page, size]
+  const path = getPath(parms)
+  console.log("http://localhost:9001" + path);
+  return request({
+    url: "http://localhost:9001" + path,
+    method: "GET"
+  })
+}
+
 export function getOnlineData(type, structure, statId, startTime, endTime, page, size) {
   const parms = [type, structure, statId, startTime, endTime, page, size]
   const path = getPath(parms)

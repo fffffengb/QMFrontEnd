@@ -1,12 +1,12 @@
 <template>
-    <div>
-        <span>authorize</span>
-    </div>
+  <div>
+    <span>权限管理</span>
+  </div>
 </template>
 
 <script>
   export default {
-    name: "Authorize"
+    name: "PermManage"
   }
 </script>
 

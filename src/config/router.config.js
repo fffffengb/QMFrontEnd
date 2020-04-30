@@ -21,10 +21,22 @@ export const routerMap = [
     meta: { title: '首页', requireLogin: true, keepAlive: false, permission: [ 'dashboard' ] },
     children: [
       {
-        path: 'authorize',
-        name: 'authorize',
-        component: () => import('@/views/authorize/Authorize'),
-        meta: { title: '认证', requireLogin: true, keepAlive: false, permission: [ 'dashboard' ] }
+        path: 'user_manage',
+        name: 'user_manage',
+        component: () => import('@/views/authorize/UserManage'),
+        meta: { title: '用户管理', requireLogin: true, keepAlive: false, permission: [ 'dashboard' ] }
+      },
+      {
+        path: 'role_manage',
+        name: 'role_manage',
+        component: () => import('@/views/authorize/RoleManage'),
+        meta: { title: '角色管理', requireLogin: true, keepAlive: false, permission: [ 'dashboard' ] }
+      },
+      {
+        path: 'perm_manage',
+        name: 'perm_manage',
+        component: () => import('@/views/authorize/PermManage'),
+        meta: { title: '权限管理', requireLogin: true, keepAlive: false, permission: [ 'dashboard' ] }
       },
       {
         path: 'history_data',

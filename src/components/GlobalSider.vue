@@ -20,10 +20,12 @@
               <span>员工信息</span>
             </a-menu-item>
 
-            <a-menu-item key="authorize">
-              <a-icon type="read" />
-              <span>权限管理</span>
-            </a-menu-item>
+            <a-sub-menu key="1">
+              <span slot="title"><a-icon type="user" />安全管理</span>
+              <a-menu-item key="user_manage">用户管理</a-menu-item>
+              <a-menu-item key="role_manage">角色管理</a-menu-item>
+              <a-menu-item key="perm_manage">权限管理</a-menu-item>
+            </a-sub-menu>
 
             <a-menu-item key="profile">
               <a-icon type="user" />
@@ -52,17 +54,7 @@ export default {
     clickMenu({key}) {
       let path = "";
       this.selectedKey = key;
-      if (key === "online_data") {
-        path = "online_data"
-      } else if (key === "history_data") {
-        path = "history_data"
-      } else if (key === "member") {
-        path = "member"
-      } else if (key === "authorize") {
-        path = "authorize"
-      } else if (key === "profile") {
-        path = "profile"
-      }
+      path = key
       this.$emit("clickItem", path)
       }
   },
