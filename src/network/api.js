@@ -1,6 +1,78 @@
 import { request } from './request'
 import store from "@/store";
 
+export function putMember(id, name, sex, birthday, birthplace) {
+  return request({
+    url: "http://localhost:9000/sys/member",
+    method: "PUT",
+    data: {
+      "name": name,
+      "sex": sex,
+      "birthday": birthday,
+      "birthplace": birthplace,
+      "id": id
+    }
+  })
+}
+
+
+export function queryMember(id=null, name=null, sex=null, birthday=null, birthplace=null, page=1) {
+  const parms = [page, 8]
+  const path = getPath(parms)
+  console.log("http://localhost:9000/sys/member" + path);
+  return request({
+    url: "http://localhost:9000/sys/member" + path,
+    method: "POST",
+    data: {
+      "name": name,
+      "sex": sex,
+      "birthday": birthday,
+      "birthplace": birthplace,
+      "id": id
+    }
+  })
+}
+
+
+export function postRole(roleName, roleCName) {
+  return request({
+    url: "http://localhost:9000/sys/role",
+    method: "POST",
+    data: {
+      "name": roleCName,
+      "c_name": roleCName
+    }
+  })
+}
+
+export function deleteRole(roleId) {
+  const parms = [roleId]
+  const path = getPath(parms)
+  console.log("http://localhost:9000/sys/role" + path);
+  return request({
+    url: "http://localhost:9000/sys/role" + path,
+    method: "DELETE"
+  })
+}
+
+export function getRoles() {
+  return request({
+    url: "http://localhost:9000/sys/role",
+    method: "GET"
+  })
+}
+
+export function postAssignRoles(userId, roleIds) {
+  return request({
+    url: "http://localhost:9000/sys/user/assignRole",
+    method: "POST",
+    data: {
+      "userId": userId,
+      "roleIds": roleIds
+    }
+  })
+}
+
 export function deleteByUsername(username) {
   const parms = [username]
   const path = getPath(parms)
@@ -10,7 +82,6 @@ export function deleteByUsername(username) {
     method: "DELETE"
   })
 }
-
 
 export function getUserData(username, page, size) {
   const parms = [username, page, size]

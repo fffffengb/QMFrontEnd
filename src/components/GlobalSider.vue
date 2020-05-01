@@ -17,7 +17,7 @@
 
             <a-menu-item key="member">
               <a-icon type="book" />
-              <span>员工信息</span>
+              <span>员工管理</span>
             </a-menu-item>
 
             <a-sub-menu key="1">

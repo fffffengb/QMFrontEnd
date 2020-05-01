@@ -35,18 +35,19 @@
                 <span slot="action" slot-scope="record">
                   <a @click="deleteUser(record)" >删除</a>
                     <a-divider type="vertical" />
-                  <a @click="displayDialog(record)" >分配角色</a>
+                  <a @click="showAssignDialog(record)" >分配角色</a>
                 </span>
             </a-table>
         </div>
         <a-modal
-            title="操作"
+            title="分配角色"
             style="top: 20px;"
             :width="800"
-            v-model="visible"
-            @ok="handleDialogOk"
+            ref="modal"
+            v-model="assignDialogVisible"
+            @ok="assignRoles"
         >
-            <span>Hi~ o(*￣▽￣*)ブ</span>
+            <a-checkbox-group :options="allRoles" @change="checkboxChange" />
         </a-modal>
     </div>
 </template>
@@ -76,13 +77,13 @@
             scopedSlots: { customRender: 'roleNames' },
         },
         {
-            title: 'Action',
+            title: '操作',
             key: 'action',
             scopedSlots: { customRender: 'action' },
         },
     ];
     const data = [];
-    import { getUserData, deleteByUsername } from '@/network/api'
+    import { getUserData, deleteByUsername, postAssignRoles, getRoles } from '@/network/api'
     export default  {
         name: "Authorize",
         data () {
@@ -90,8 +91,11 @@
                 data,
                 columns,
                 isLoading: false,
-                visible: false,
-                username: null
+                assignDialogVisible: false,
+                username: null,
+                allRoles: [],
+                selectedRoles: [],
+                selectedRecord: null
             }
         },
         methods: {
@@ -99,7 +103,6 @@
                 getUserData(username, 1, 10).then(res => {
                     this.data = res.data.rows
                     this.$message.success("查找成功" + res.data.total + "条")
-                    console.log(res);
                 })
             },
             deleteUser(record) {
@@ -115,15 +118,40 @@
                 })
                 // this.visible = true
             },
-            handleDialogOk(value) {
-                console.log(value);
+            updateRecord(id, roleNames) {
+                for (let i = 0; i < this.data.length; i++) {
+                    if (this.data[i].id === id)
+                        this.data[i].roleNames = roleNames
+                }
+            },
+            assignRoles() {
+                postAssignRoles(this.selectedRecord.id, this.selectedRoles).then((res) => {
+                    this.updateRecord(this.selectedRecord.id, res.data)
+                    this.assignDialogVisible = false
+                    this.$message.success("分配成功")
+                })
+            },
+            showAssignDialog(record) {
+                this.assignDialogVisible = true
+                this.selectedRecord = record
+            },
+            checkboxChange(values) {
+                this.selectedRoles = values
             },
             query() {
                 this.loadData(this.username)
             }
         },
         mounted() {
+            // 加载表格数据
             this.loadData(this.username)
+            // 加载角色数据
+            getRoles().then(res => {
+                let data = res.data
+                for (let i = 0; i < data.length; i++) {
+                    this.allRoles.push({"label": data[i].c_name, "value": data[i].id})
+                }
+            })
         }
     }
 </script>
